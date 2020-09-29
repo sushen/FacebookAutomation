@@ -21,7 +21,7 @@ driver.find_element_by_name("login").click()
 #time.sleep(4)
 
 #TODO: Go to the Post link
-driver.get("https://www.facebook.com/watch/?v=298300894651113&extid=VX1anIwOK2v1V7mL")
+driver.get("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
 #time.sleep(4)
 
 #TODO: Start Replying
