@@ -1,9 +1,16 @@
-# https://www.facebook.com/watch/?v=298300894651113&extid=VX1anIwOK2v1V7mL
+#  Copyright (c) 2020.
+#  Version : 1.0.2
+#  Script Author : Sushen Biswas
+#
+#  Sushen Biswas Github Link : https://github.com/sushen
+#
+#  !/usr/bin/env python
+#  coding: utf-8
 
 import os
 from selenium import webdriver
 import time
-# import random
+import random
 
 
 options = webdriver.ChromeOptions()
@@ -25,11 +32,11 @@ password = os.environ.get('fake_facebook_pass')
 # driver.find_element_by_name("login").click()
 # time.sleep(2)
 
-# messages = [
-#     "You are welcome",
-#     "Thankyou very much",
-#     "Thanks for your comment"
-# ]
+messages = [
+    "You are welcome",
+    "Thankyou very much",
+    "Thanks for your comment"
+]
 
 #TODO: Go to the Post link
 
@@ -74,7 +81,7 @@ class FacebookBot():
     def botComment(self,comment):
         index = 1
         while True:
-            time.sleep(2)
+            time.sleep(9)
             try:
                 reply_x_path = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[1]/div/div[2]/ul/li[2]/div'.format(index)
                 reply_btn = self.driver.find_element_by_xpath(reply_x_path)
@@ -97,8 +104,8 @@ fb.login()
 fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
 
 #TODO: Check option two
-fb.botComment("Thanks")
-# fb.botComment(random.choice(messages))
+#fb.botComment("Thanks")
+fb.botComment(random.choice(messages))
 
     
     
