@@ -1,11 +1,23 @@
-# https://www.facebook.com/watch/?v=298300894651113&extid=VX1anIwOK2v1V7mL
+#  Copyright (c) 2020.
+#  Version : 1.0.2
+#  Script Author : Sushen Biswas
+#
+#  Sushen Biswas Github Link : https://github.com/sushen
+#
+#  !/usr/bin/env python
+#  coding: utf-8
 
 import os
 from selenium import webdriver
 import time
+import random
+
 
 options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
+# chrome_options = webdriver.ChromeOptions()
+options.add_argument("--disable-notifications")
+
 # driver = webdriver.Chrome("./chromedriver.exe", chrome_options=options)
 #time.sleep(4)
 
@@ -20,19 +32,32 @@ password = os.environ.get('fake_facebook_pass')
 # driver.find_element_by_name("login").click()
 # time.sleep(2)
 
+messages = [
+    "You are welcome",
+    "Thankyou very much",
+    "Thanks for your comment"
+]
+
 #TODO: Go to the Post link
 
 
 class FacebookBot():
     def __init__(self):
         self.driver = webdriver.Chrome("./chromedriver.exe", chrome_options=options)
+
         
     def login(self):
         self.driver.get("https://www.facebook.com")
         self.driver.find_element_by_name("email").send_keys(username)
         self.driver.find_element_by_name("pass").send_keys(password)
         self.driver.find_element_by_name("login").click()
-    
+
+        self.driver.get("https://www.facebook.com/profile.php?id=100052136962146")
+        # self.driver.close(self)
+
+
+
+
     def comment_watchVideoLink(self,videoLink):
         self.driver.get(videoLink)
         cmnt_btn = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div/div/div[2]/div/div[3]')
@@ -56,7 +81,7 @@ class FacebookBot():
     def botComment(self,comment):
         index = 1
         while True:
-            time.sleep(2)
+            time.sleep(9)
             try:
                 reply_x_path = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[1]/div/div[2]/ul/li[2]/div'.format(index)
                 reply_btn = self.driver.find_element_by_xpath(reply_x_path)
@@ -70,23 +95,17 @@ class FacebookBot():
             except Exception:
                 more_btn = vc = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/div/div[1]/div[2]/span/span')
                 more_btn.click()
-                
         
-        
-        
-        
-        
-        
-       
-        
-
 
 
 fb = FacebookBot()
 
 fb.login()
 fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
-fb.botComment("Thanks")
+
+#TODO: Check option two
+#fb.botComment("Thanks")
+fb.botComment(random.choice(messages))
 
     
     
