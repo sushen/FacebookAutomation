@@ -24,8 +24,8 @@ options.add_argument("--disable-notifications")
 
 # driver.get("https://www.facebook.com")
 # I use environment veriable base on this tutorials https://www.youtube.com/watch?v=IolxqkL7cD8
-username = os.environ.get('fake_facebook_email')
-password = os.environ.get('fake_facebook_pass')
+username = os.environ.get('my_facebook_username')
+password = os.environ.get('my_facebook_password')
 
 # driver.find_element_by_name("email").send_keys(username)
 # driver.find_element_by_name("pass").send_keys(password)
@@ -109,8 +109,8 @@ class FacebookBot():
 
 
 fb = FacebookBot()
-
 fb.login()
+input("You have to login and Put your 2 step auth and write 0 and enter  : \n")
 fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
 
 #TODO: Check option two
