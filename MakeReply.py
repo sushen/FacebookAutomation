@@ -24,21 +24,23 @@ options.add_argument("--disable-notifications")
 
 # driver.get("https://www.facebook.com")
 # I use environment veriable base on this tutorials https://www.youtube.com/watch?v=IolxqkL7cD8
-username = os.environ.get('fake_facebook_email')
-password = os.environ.get('fake_facebook_pass')
+username = os.environ.get('my_facebook_username')
+password = os.environ.get('my_facebook_password')
 
 # driver.find_element_by_name("email").send_keys(username)
 # driver.find_element_by_name("pass").send_keys(password)
 # driver.find_element_by_name("login").click()
 # time.sleep(2)
 
+#TODO: Put Your massage here
 messages = [
     "You are welcome",
-    "Thankyou very much",
+    "Thank you very much",
     "Thanks for your comment"
 ]
 
 #TODO: Go to the Post link
+post_url = "https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD"
 
 
 class FacebookBot():
@@ -54,8 +56,6 @@ class FacebookBot():
 
         # self.driver.get("https://www.facebook.com/profile.php?id=100052136962146")
         # self.driver.close(self)
-
-
 
 
     def comment_watchVideoLink(self,videoLink):
@@ -99,25 +99,26 @@ class FacebookBot():
                         msg_box = self.driver.find_element_by_xpath(msg_x_path)
                         msg_box.send_keys(comment+"\n")
                         break;
-                        
+
                     except Exception:
                         pass
                 index += 1
             except Exception:
                 more_btn = vc = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/div/div[1]/div[2]/span/span')
                 more_btn.click()
-            
         
 
 
-# fb = FacebookBot()
+fb = FacebookBot()
+fb.login()
 
-# fb.login()
-# fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
+#TODO: Make a yes no gate
+input("You have to login and Put your 2 step auth and write 0 and enter  : \n")
+
+fb.comment_watchVideoLink(post_url)
 
 #TODO: Check option two
-#fb.botComment("Thats is awesome")
-# fb.botComment(random.choice(messages))
+fb.botComment(random.choice(messages))
 
     
     
@@ -125,8 +126,11 @@ class FacebookBot():
 
 #time.sleep(4)
 
-#TODO: Start Replying
+#TODO: 1.Start Replying and Scape if alrady reply
 
+#TODO: 2.Delet
 
-#TODO: Close
+#TODO: Like
+
+#TODO: Close After Work
 
