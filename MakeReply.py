@@ -34,7 +34,7 @@ password = os.environ.get('fake_facebook_pass')
 
 messages = [
     "You are welcome",
-    "Thankyou very much",
+    "Thank you very much",
     "Thanks for your comment"
 ]
 
@@ -54,8 +54,6 @@ class FacebookBot():
 
         # self.driver.get("https://www.facebook.com/profile.php?id=100052136962146")
         # self.driver.close(self)
-
-
 
 
     def comment_watchVideoLink(self,videoLink):
@@ -110,14 +108,14 @@ class FacebookBot():
         
 
 
-# fb = FacebookBot()
+fb = FacebookBot()
 
-# fb.login()
-# fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
+fb.login()
+fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
 
 #TODO: Check option two
 #fb.botComment("Thats is awesome")
-# fb.botComment(random.choice(messages))
+fb.botComment(random.choice(messages))
 
     
     
@@ -125,7 +123,12 @@ class FacebookBot():
 
 #time.sleep(4)
 
-#TODO: Start Replying
+#TODO: 1.Start Replying and Scape if alrady reply
+
+#TODO: 2.Delet
+
+#TODO: Like
+
 
 
 #TODO: Close
