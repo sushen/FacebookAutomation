@@ -32,6 +32,7 @@ password = os.environ.get('my_facebook_password')
 # driver.find_element_by_name("login").click()
 # time.sleep(2)
 
+#TODO: Put Your massage here
 messages = [
     "You are welcome",
     "Thank you very much",
@@ -39,6 +40,7 @@ messages = [
 ]
 
 #TODO: Go to the Post link
+post_url = "https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD"
 
 
 class FacebookBot():
@@ -97,7 +99,7 @@ class FacebookBot():
                         msg_box = self.driver.find_element_by_xpath(msg_x_path)
                         msg_box.send_keys(comment+"\n")
                         break;
-                        
+
                     except Exception:
                         pass
                 index += 1
@@ -112,10 +114,10 @@ fb.login()
 
 #TODO: Make a yes no gate
 input("You have to login and Put your 2 step auth and write 0 and enter  : \n")
-fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
+
+fb.comment_watchVideoLink(post_url)
 
 #TODO: Check option two
-#fb.botComment("Thats is awesome")
 fb.botComment(random.choice(messages))
 
     
@@ -130,7 +132,5 @@ fb.botComment(random.choice(messages))
 
 #TODO: Like
 
-
-
-#TODO: Close
+#TODO: Close After Work
 
