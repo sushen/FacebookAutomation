@@ -35,7 +35,7 @@ password = os.environ.get('my_facebook_password')
 # time.sleep(2)
 
 #TODO: We have to wait for page
-waiting_for_page = 9
+waiting_for_page = 4
 
 #TODO: Put Your massage here
 messages = [
@@ -54,9 +54,9 @@ class FacebookBot():
         self.profile_reference = ''
     def login(self):
         self.driver.get("https://www.facebook.com")
-        self.driver.find_element_by_name("email").send_keys(username)
+        self.driver.find_element_by_name("email").send_keys("eyyidxf633@lefaqr5.com")
         time.sleep(2)
-        self.driver.find_element_by_name("pass").send_keys(password)
+        self.driver.find_element_by_name("pass").send_keys("#3#3#3")
         time.sleep(2)
         self.driver.find_element_by_name("login").click()
         
@@ -87,7 +87,7 @@ class FacebookBot():
 
         self.driver.get(videoLink)
         while True:
-            time.sleep(waiting_for_page)
+            time.sleep(2)
             try:
                 cmnt_btn = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div/div/div[2]/div/div[3]/div/span')
                 cmnt_btn.click()
@@ -95,7 +95,7 @@ class FacebookBot():
             except Exception:
                 pass
         
-        time.sleep(10)
+        # time.sleep(10)
         while True:
             time.sleep(waiting_for_page)
             try:
@@ -157,7 +157,7 @@ class FacebookBot():
                     
                 if not profile_found:
                     while True:
-                        time.sleep(15)
+                        time.sleep(1)
                         try:  
                             msg_x_path = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[2]/div/div[2]/div[2]/div/div/div/div/form/div/div/div[2]/div/div/div/div'.format(index)
                             msg_box = self.driver.find_element_by_xpath(msg_x_path)
@@ -186,11 +186,11 @@ input("You have to login and Put your 2 step auth and write 0 and enter  : \n")
 time.sleep(waiting_for_page)
 # post_url = "https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD"
 fb.comment_watchVideoLink(post_url)
-#TODO: Check option two
-time.sleep(30)
-fb.botComment(messages)
 
-    
+#TODO: Check option two
+input("Do you want to start commenting then write 0 and enter  : \n")
+# time.sleep(10)
+fb.botComment(messages)
     
 
 
