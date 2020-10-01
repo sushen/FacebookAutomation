@@ -52,7 +52,7 @@ class FacebookBot():
         self.driver.find_element_by_name("pass").send_keys(password)
         self.driver.find_element_by_name("login").click()
 
-        self.driver.get("https://www.facebook.com/profile.php?id=100052136962146")
+        # self.driver.get("https://www.facebook.com/profile.php?id=100052136962146")
         # self.driver.close(self)
 
 
@@ -60,11 +60,19 @@ class FacebookBot():
 
     def comment_watchVideoLink(self,videoLink):
         self.driver.get(videoLink)
-        cmnt_btn = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div/div/div[2]/div/div[3]')
-        cmnt_btn.click()
-        time.sleep(1)
         while True:
             time.sleep(0.5)
+            try:
+                cmnt_btn = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div/div/div[2]/div/div[3]/div/span')
+                cmnt_btn.click()
+                break;
+            except Exception:
+                pass
+        
+      
+        time.sleep(1)
+        while True:
+            time.sleep(1)
             try:
                 show_cmnt = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[1]/div[2]/div/span/div/div/i')  
                 show_cmnt.click()
@@ -75,37 +83,41 @@ class FacebookBot():
                 pass
         
     
-        
-        
-    
     def botComment(self,comment):
         index = 1
         while True:
-            time.sleep(9)
+            time.sleep(15)
             try:
                 reply_x_path = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[1]/div/div[2]/ul/li[2]/div'.format(index)
                 reply_btn = self.driver.find_element_by_xpath(reply_x_path)
                 reply_btn.click()
                 
-                msg_x_path = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[2]/div/div[2]/div[2]/div[1]/div/div/div/form/div/div/div[2]/div/div/div/div'.format(index)
-                
-                msg_box = self.driver.find_element_by_xpath(msg_x_path)
-                msg_box.send_keys(comment+"\n")
+                while True:
+                    time.sleep(15)
+                    try:  
+                        msg_x_path = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[2]/div/div[2]/div[2]/div/div/div/div/form/div/div/div[2]/div/div/div/div'.format(index)
+                        msg_box = self.driver.find_element_by_xpath(msg_x_path)
+                        msg_box.send_keys(comment+"\n")
+                        break;
+                        
+                    except Exception:
+                        pass
                 index += 1
             except Exception:
                 more_btn = vc = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/div/div[1]/div[2]/span/span')
                 more_btn.click()
+            
         
 
 
-fb = FacebookBot()
+# fb = FacebookBot()
 
-fb.login()
-fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
+# fb.login()
+# fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
 
 #TODO: Check option two
-#fb.botComment("Thanks")
-fb.botComment(random.choice(messages))
+#fb.botComment("Thats is awesome")
+# fb.botComment(random.choice(messages))
 
     
     
