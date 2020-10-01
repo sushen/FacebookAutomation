@@ -104,12 +104,13 @@ class FacebookBot():
             except Exception:
                 more_btn = vc = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/div/div[1]/div[2]/span/span')
                 more_btn.click()
-            
         
 
 
 fb = FacebookBot()
 fb.login()
+
+#TODO: Make a yes no gate
 input("You have to login and Put your 2 step auth and write 0 and enter  : \n")
 fb.comment_watchVideoLink("https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3zsVEdD")
 
