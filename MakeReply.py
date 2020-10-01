@@ -30,7 +30,11 @@ password = os.environ.get('my_facebook_password')
 # driver.find_element_by_name("email").send_keys(username)
 # driver.find_element_by_name("pass").send_keys(password)
 # driver.find_element_by_name("login").click()
+
 # time.sleep(2)
+
+#TODO: We have to wait for page
+waiting_for_page = 9
 
 #TODO: Put Your massage here
 messages = [
@@ -61,7 +65,7 @@ class FacebookBot():
     def comment_watchVideoLink(self,videoLink):
         self.driver.get(videoLink)
         while True:
-            time.sleep(0.5)
+            time.sleep(waiting_for_page)
             try:
                 cmnt_btn = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div/div/div[2]/div/div[3]/div/span')
                 cmnt_btn.click()
@@ -72,7 +76,7 @@ class FacebookBot():
       
         time.sleep(1)
         while True:
-            time.sleep(1)
+            time.sleep(waiting_for_page)
             try:
                 show_cmnt = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[1]/div[2]/div/span/div/div/i')  
                 show_cmnt.click()
@@ -86,7 +90,7 @@ class FacebookBot():
     def botComment(self,comment):
         index = 1
         while True:
-            time.sleep(15)
+            time.sleep(waiting_for_page)
             try:
                 reply_x_path = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[1]/div/div[2]/ul/li[2]/div'.format(index)
                 reply_btn = self.driver.find_element_by_xpath(reply_x_path)
@@ -115,6 +119,7 @@ fb.login()
 #TODO: Make a yes no gate
 input("You have to login and Put your 2 step auth and write 0 and enter  : \n")
 
+time.sleep(waiting_for_page)
 fb.comment_watchVideoLink(post_url)
 
 #TODO: Check option two
