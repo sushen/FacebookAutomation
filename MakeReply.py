@@ -54,9 +54,9 @@ class FacebookBot():
         self.profile_reference = ''
     def login(self):
         self.driver.get("https://www.facebook.com")
-        self.driver.find_element_by_name("email").send_keys("eyyidxf633@lefaqr5.com")
+        self.driver.find_element_by_name("email").send_keys("loktja4868@qkerbl.com")
         time.sleep(2)
-        self.driver.find_element_by_name("pass").send_keys("#3#3#3")
+        self.driver.find_element_by_name("pass").send_keys("#1#1#1")
         time.sleep(2)
         self.driver.find_element_by_name("login").click()
         
