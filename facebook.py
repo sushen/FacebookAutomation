@@ -1,6 +1,3 @@
-selenium==3.141.0
-urllib3==1.25.10
-
 from selenium import webdriver
 import time
 
