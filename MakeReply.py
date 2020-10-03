@@ -12,6 +12,7 @@ import os
 from selenium import webdriver
 import time
 import random
+import sys
 
 
 options = webdriver.ChromeOptions()
@@ -51,7 +52,10 @@ post_url = "https://www.facebook.com/watch/?v=1464445743765490&extid=01rZBI8pW3z
 
 class FacebookBot():
     def __init__(self):
-        self.driver = webdriver.Chrome("./chromedriver.exe", chrome_options=options)
+        if sys.platform.startswith('win32'):
+            self.driver = webdriver.Chrome("./chromedriver.exe", chrome_options=options)
+        else:
+            self.driver = webdriver.Chrome(options=options)
         self.profile_reference = ''
     def login(self):
         self.driver.get("https://www.facebook.com")
@@ -92,7 +96,7 @@ class FacebookBot():
             try:
                 cmnt_btn = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div/div/div[2]/div/div[3]/div/span')
                 cmnt_btn.click()
-                break;
+                break
             except Exception:
                 pass
         
@@ -105,7 +109,7 @@ class FacebookBot():
                 time.sleep(waiting_for_page)
                 all_cmnt = self.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[2]/div/div/div[1]/div[1]/div/div/div[1]/div/div[1]/div/div[3]/div[1]/div/div[1]/span')
                 all_cmnt.click()
-                break;
+                break
             except Exception:
                 pass
         
@@ -120,7 +124,7 @@ class FacebookBot():
                 reply_btn.click()
                 comment_List_count = 1
                 profile_found = False
-                author_found = 0;
+                author_found = 0
                 while True:
                     time.sleep(5)
                     ch_list = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[2]/div/ul/li[{}]/div/div/div[2]/div/div[1]/div/div/div/div/div[1]/a'.format(index,comment_List_count)
@@ -134,7 +138,7 @@ class FacebookBot():
                         profile_ref = pr[0].strip()
                         if self.profile_reference == profile_ref:
                             profile_found = True
-                            break;    
+                            break
                         comment_List_count += 1
                     except Exception:
                         try:
@@ -146,14 +150,14 @@ class FacebookBot():
                             author_path = '//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[{}]/div[2]/div/ul/li/div/div/div[2]/div/div[1]/div/div/div/div/div[1]/a'.format(index)
                             
                             if author_found == 1:
-                                break;
+                                break
                             
                             try:
                                 author = self.driver.find_element_by_xpath(author_path)
                                 comment_List_count += 1
                                 author_found += 1
                             except Exception:
-                                break; 
+                                break
                     
                     
                 if not profile_found:
@@ -164,7 +168,7 @@ class FacebookBot():
                             msg_box = self.driver.find_element_by_xpath(msg_x_path)
                             msg = random.choice(comment)
                             msg_box.send_keys(msg+"\n")
-                            break;
+                            break
 
                         except Exception:
                             pass

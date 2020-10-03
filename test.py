@@ -3,7 +3,7 @@
                 
                 # history = fb.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[1]/div[2]/div/ul/li[2]/div/div/div[2]/div/div[1]')
                 # history = fb.driver.find_element_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[1]/div[2]/div/ul/li[2]/div/div/div[2]/div/div[1]/div/div/div/div/div[1]/a')
-                # history = fb.driver.find_element_by_xpath('//*[@id="u_0_b"]/div[1]/div[1]/div/a')
+                # histnory = fb.driver.find_element_by_xpath('//*[@id="u_0_b"]/div[1]/div[1]/div/a')
                 # //*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[1]/div[2]/div/ul/li[2]/div/div/div[2]/div/div[1]/div/div/div/div/div[1]/a/span/span
                 
                 # //*[@id="watch_feed"]/div/div[1]/div[1]/div[1]/div/div/div[3]/div[2]/div[2]/ul/li[1]/div[2]/div/ul/li[2]/div/div/div[2]/div/div[1]/div/div/div/div/div[1]/a
