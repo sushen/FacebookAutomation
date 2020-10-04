@@ -69,14 +69,14 @@ class FacebookBot:
         options = webdriver.ChromeOptions()
         options.add_argument("--start-maximized")
         options.add_argument("--disable-notifications")
-        options.add_argument('--user-data-dir="/home/fahim/.config/google-chrome"')
-        options.add_argument('--profile-directory=Profile 1')
         options.add_argument('--incognito')
 
         try:
             if sys.platform.startswith('win32'):
                 self.driver = webdriver.Chrome("./chromedriver.exe", options=options)
             else:
+                options.add_argument('--user-data-dir="/home/fahim/.config/google-chrome"')
+                options.add_argument('--profile-directory=Profile 1')
                 self.driver = webdriver.Chrome('./chromedriver', options=options)
         except Exception as e:
             print(e)
@@ -169,7 +169,7 @@ if __name__ == '__main__':
 
     febu_bot.login()
 
-    input("Enter after your work done.")
+    input("Enter after your work done:")
 
     febu_bot.goto_facebook_page_post()
 
@@ -177,7 +177,9 @@ if __name__ == '__main__':
     # febu_bot.mouse_click('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div[3]/div[2]/div[1]/div[2]/div/span', 4)
     # febu_bot.mouse_click('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div['
     #                      '1]/div/div/div[1]/div/div[1]/div/div[1]')
-    febu_bot.mouse_click('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div[3]/div[2]/div[1]/div[1]/div[2]')
+    time.sleep(3)
+    febu_bot.mouse_click('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div[3]/div[2]/div[1]/div[1]/div['
+                         '2]/span/span')
     time.sleep(5)
     for profile in febu_bot.driver.find_elements_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div['
                                                           '3]/div[2]/div[2]/ul/li'):
