@@ -169,6 +169,8 @@ if __name__ == '__main__':
 
     febu_bot.login()
 
+    input("Enter after your work done.")
+
     febu_bot.goto_facebook_page_post()
 
     febu_bot.mouse_click('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div[3]/div[1]/div/div[1]/div/span[2]/div')
