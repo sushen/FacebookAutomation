@@ -69,6 +69,7 @@ class FacebookBot:
         options = webdriver.ChromeOptions()
         options.add_argument("--start-maximized")
         options.add_argument("--disable-notifications")
+        options.add_argument('--incognito')
 
         try:
             if sys.platform.startswith('win32'):
@@ -76,7 +77,6 @@ class FacebookBot:
             else:
                 options.add_argument('--user-data-dir="/home/fahim/.config/google-chrome"')
                 options.add_argument('--profile-directory=Profile 1')
-                options.add_argument('--incognito')
                 self.driver = webdriver.Chrome('./chromedriver', options=options)
         except Exception as e:
             print(e)
