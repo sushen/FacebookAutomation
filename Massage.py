@@ -188,7 +188,8 @@ if __name__ == '__main__':
     password = os.environ.get('my_facebook_password')
 
     data = Data(username, password)
-    data.facebook_business_post_url = 'https://www.facebook.com/Sushen.Biswas.Creative.Director/posts/3598006256895229'
+    post_url = input("Your post URL")
+    data.facebook_business_post_url = post_url
 
     febu_bot = FacebookBot(data)
 
