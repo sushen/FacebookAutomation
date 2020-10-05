@@ -1,7 +1,7 @@
 #  Copyright (c) 2020.
 #  Version : 1.0.2
 #  Script Author : Sushen Biswas
-#
+#  Somehow we don't know this is highly edited by Fahim Al Islam (https://github.com/dev-fahim) (https://dev-fahim.github.io/me)
 #  Sushen Biswas Github Link : https://github.com/sushen
 #
 #  !/usr/bin/env python
@@ -145,9 +145,28 @@ class FacebookBot:
         else:
             until()
 
+    def mouse_click_element(self, element, wait=None, until=None):
+        element.click()
+        if until is None:
+            self.wait(wait) if wait is not None else self.wait(self.wait_time)
+        else:
+            until()
+
     def check_it_exists_by_class(self, class_):
         try:
             self.driver.find_element_by_class_name(class_)
+        except NoSuchElementException:
+            return False
+        return True
+
+    def check_it_exists(self, class_=None, id_=None, xpath_=None):
+        try:
+            if class_:
+                self.driver.find_element_by_class_name(class_)
+            elif id_:
+                self.driver.find_element_by_id(id_)
+            else:
+                self.driver.find_element_by_xpath(xpath_)
         except NoSuchElementException:
             return False
         return True
@@ -162,45 +181,90 @@ class FacebookBot:
 if __name__ == '__main__':
     dotenv.load_dotenv()
 
+    is2FA = bool(int(input('Do you need 2FA? type 1 for yes and 0 for no: ')))
+    isYourPage = bool(int(input('Is this your page? type 1 for yes and 0 for no: ')))
+
     username = os.environ.get('my_facebook_username')
     password = os.environ.get('my_facebook_password')
 
-    febu_bot = FacebookBot(Data(username, password))
+    data = Data(username, password)
+    data.facebook_business_post_url = 'https://www.facebook.com/Sushen.Biswas.Creative.Director/posts/3598006256895229'
+
+    febu_bot = FacebookBot(data)
 
     febu_bot.login()
 
-    input("Enter after your work done:")
+    if is2FA:
+        input("Enter after your work done:")
 
     febu_bot.goto_facebook_page_post()
 
-    febu_bot.mouse_click('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div[3]/div[1]/div/div[1]/div/span[2]/div')
-    # febu_bot.mouse_click('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div[3]/div[2]/div[1]/div[2]/div/span', 4)
-    # febu_bot.mouse_click('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div['
-    #                      '1]/div/div/div[1]/div/div[1]/div/div[1]')
+    feed_box_aria = febu_bot.driver.find_element_by_xpath("//div[@data-testid='Keycommand_wrapper_feed_story']")
+
+    comments_button = "//div[@aria-label='Leave a comment']"
+
+    febu_bot.mouse_click(comments_button)
+
     time.sleep(3)
-    febu_bot.mouse_click('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div[3]/div[2]/div[1]/div[1]/div['
-                         '2]/span/span')
-    time.sleep(5)
-    for profile in febu_bot.driver.find_elements_by_xpath('//*[@id="watch_feed"]/div/div[1]/div[1]/div/div[2]/div['
-                                                          '3]/div[2]/div[2]/ul/li'):
+
+    comments = feed_box_aria.find_elements_by_xpath('//div[contains(@aria-label, "Comment by")]')
+
+    for li in comments:
+        if isYourPage:
+            message_link = None
+            try:
+                message_link = li.find_element_by_xpath('//div[1]/div/div[2]/ul/li[3]/div[@role="button"]')
+            except Exception as e:
+                print(e)
+                print("Not found")
+                continue
+
+            print("Found")
+            message_link.click()
+            time.sleep(0.8)
+            message_box = febu_bot.driver.find_element_by_xpath('//div[contains(@aria-label, "Message")]')
+            message_box_form = message_box.find_element_by_xpath(
+                '//div/div[3]/div[2]/div[2]/span/div/div/div[2]/div/div/div/div')
+            message_box_form.send_keys('It worked')
+            time.sleep(0.1)
+            send_button = message_box.find_element_by_xpath(
+                '//div[@aria-label="Send Message" and contains(@class, "oajrlxb2")]')
+            send_button.click()
+            time.sleep(5)
+        else:
+            febu_bot.hover_element(li.find_element_by_class_name('oajrlxb2'))
+            time.sleep(0.5)
+    exit(0)
+
+
+
+"""
+    for profile in febu_bot.driver.find_elements_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div['
+                                                          '1]/div[1]/div[4]/div['
+                                                          '1]/div/div/div/div/div/div/div/div/div[1]/div/div['
+                                                          '2]/div/div[4]/div/div/div[2]/ul/li'):
         febu_bot.hover_element(profile.find_element_by_class_name('oajrlxb2'))
+
         time.sleep(3)
-        card = febu_bot.driver.find_element_by_class_name('j34wkznp')
-        time.sleep(1)
 
         if len(febu_bot.driver.find_elements_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div['
                                                       '2]/div/div/div[1]/div[1]/div/div/div[2]/div/div/div/div')) \
                 == 2:
-            time.sleep(2)
             canMessage = febu_bot.check_it_exists_by_class('k4urcfbm')
-            time.sleep(1)
+
             if canMessage:
                 # message = febu_bot.driver.find_element_by_class_name('k4urcfbm')
                 febu_bot.mouse_click('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div['
                                      '1]/div/div/div[2]/div/div/div/div[1]/div/div')  # rq0escxv
                 time.sleep(3)
-                febu_bot.fill_text_input_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[5]/div[1]/div[1]/div['
-                                                  '1]/div/div/div/div/div/div/div[2]/div/div[2]/form/div/div[3]/div['
-                                                  '2]/div[1]/div/div/div/div/div[2]/div/div/div/div', 'Thanks')
+                try:
+                    febu_bot.fill_text_input_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[5]/div[1]/div[1]/div['
+                                                      '1]/div/div/div/div/div/div/div[2]/div/div[2]/form/div/div['
+                                                      '3]/div[ '
+                                                      '2]/div[1]/div/div/div/div/div[2]/div/div/div/div', 'Thanks')
+                except NoSuchElementException as no_element_error:
+                    print("Already messaged")
+                    continue
 
     exit(0)
+"""
