@@ -18,6 +18,7 @@ import random
 # TODO: We have to wait for page
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 waiting_for_page = 2
 
@@ -188,7 +189,7 @@ if __name__ == '__main__':
     password = os.environ.get('my_facebook_password')
 
     data = Data(username, password)
-    post_url = input("Your post URL")
+    post_url = input("Your post URL: ")
     data.facebook_business_post_url = post_url
 
     febu_bot = FacebookBot(data)
@@ -227,10 +228,9 @@ if __name__ == '__main__':
             message_box_form = message_box.find_element_by_xpath(
                 '//div/div[3]/div[2]/div[2]/span/div/div/div[2]/div/div/div/div')
             message_box_form.send_keys('It worked')
-            time.sleep(0.1)
-            send_button = message_box.find_element_by_xpath(
-                '//div[@aria-label="Send Message" and contains(@class, "oajrlxb2")]')
-            send_button.click()
+            time.sleep(1)
+            febu_bot.mouse_click(xpath='//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div['
+                                       '2]/div/div/div/div[4]/div[2]/div')
             time.sleep(5)
         else:
             febu_bot.hover_element(li.find_element_by_class_name('oajrlxb2'))
