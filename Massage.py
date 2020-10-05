@@ -195,7 +195,7 @@ if __name__ == '__main__':
     febu_bot.login()
 
     if is2FA:
-        input("Enter after your work done:")
+        input("Enter after your work is done:")
 
     febu_bot.goto_facebook_page_post()
 
