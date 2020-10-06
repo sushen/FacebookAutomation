@@ -229,6 +229,11 @@ if __name__ == '__main__':
 
     time.sleep(3)
 
+    febu_bot.mouse_click('//span/span[contains(text(), "View") and contains(text(), "comments")]')
+    print("==> Loading more comments")
+    time.sleep(6)
+    print("==> More comments are loaded")
+
     comments = feed_box_aria.find_elements_by_xpath('//div[contains(@aria-label, "Comment by")]')
 
     i = 1
