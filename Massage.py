@@ -19,6 +19,7 @@ import random
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.keys import Keys
+import emoji
 
 waiting_for_page = 2
 
@@ -182,17 +183,29 @@ class FacebookBot:
 
 
 if __name__ == '__main__':
+    print()
+    print()
+    print(f"************ Facebook page post auto message bot {emoji.emojize(':robot:')} ************")
     dotenv.load_dotenv()
+    messages = []
+    with open("./messages.txt") as f:
+        for line in f:
+            messages.append(line.split('\n')[0])
 
-    is2FA = bool(int(input('Do you need 2FA? type 1 for yes and 0 for no: ')))
-    isYourPage = bool(int(input('Is this your page? type 1 for yes and 0 for no: ')))
-    isCookieAsked = bool(int(input('Is this your cookie is been asked? type 1 for yes and 0 for no: ')))
+    print(">>>>>>>> All messages are loaded!!!")
+
+    time.sleep(2)
+    print(">>>>>>>> STARTED!!! " + emoji.emojize(':winking_face_with_tongue:'))
+
+    is2FA = bool(int(input('#### Do you need 2FA? type 1 for yes and 0 for no: ')))
+    isYourPage = bool(int(input('#### Is this your page? type 1 for yes and 0 for no: ')))
+    isCookieAsked = bool(int(input('#### Is this your cookie is been asked? type 1 for yes and 0 for no: ')))
 
     username = os.environ.get('my_facebook_username')
     password = os.environ.get('my_facebook_password')
 
     data = Data(username, password)
-    post_url = input("Your post URL: ")
+    post_url = input("#### Your post URL: ")
     data.facebook_business_post_url = post_url
 
     febu_bot = FacebookBot(data)
@@ -201,46 +214,66 @@ if __name__ == '__main__':
 
     if is2FA:
         input("Enter after your work is done:")
+    print(f"==> Logged in {emoji.emojize(':smiling_face_with_sunglasses:')}")
 
     febu_bot.goto_facebook_page_post()
+    print("==> Now in page post")
 
+    time.sleep(2)
     feed_box_aria = febu_bot.driver.find_element_by_xpath("//div[@data-testid='Keycommand_wrapper_feed_story']")
 
     comments_button = "//div[@aria-label='Leave a comment']"
 
     febu_bot.mouse_click(comments_button)
+    print("==> Clicked the comments button")
 
     time.sleep(3)
 
     comments = feed_box_aria.find_elements_by_xpath('//div[contains(@aria-label, "Comment by")]')
 
+    i = 1
     for li in comments:
+        print()
+        print()
+        print(f"========> Now in number {i} thread {emoji.emojize(':smirking_face:')} <========")
+        message = random.choice(messages)
         if isYourPage:
             message_link = None
             try:
                 message_link = li.find_element_by_xpath('//div[1]/div/div[2]/ul/li[3]/div[@role="button"]')
                 febu_bot.driver.execute_script("arguments[0].scrollIntoView();", message_link)
+                print("====> Scrolled to the commenter")
                 time.sleep(0.5)
             except Exception as e:
-                print(e)
-                print("Not found")
+                print(f"====> Messaging not available for this comment {emoji.emojize(':expressionless_face:')}")
                 continue
 
-            print("Found")
             time.sleep(1.3)
             febu_bot.driver.execute_script("arguments[0].click();", message_link)
+            print("====> Message button clicked")
             time.sleep(2)
+            commenter = febu_bot.driver.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div['
+                                                              '4]/div/div/div[1]/div/div[2]/div/div/div/div['
+                                                              '1]/div/h2/span/span').text
+            print(f"====> {emoji.emojize(':face_savoring_food:')} Sending Message to {commenter}")
+            time.sleep(1)
             message_box = febu_bot.driver.find_element_by_xpath('//div[contains(@aria-label, "Message")]')
             message_box_form = message_box.find_element_by_xpath(
                 '//div/div[3]/div[2]/div[2]/span/div/div/div[2]/div/div/div/div')
-            message_box_form.send_keys(random.choice(messages))
+            message_box_form.send_keys(message)
+            print("====> Inputed the message with: " + message)
             time.sleep(1)
             febu_bot.mouse_click(xpath='//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div['
                                        '2]/div/div/div/div[4]/div[2]/div')
+            print("====> Send message button clicked")
             time.sleep(5)
+            print(f"====> {emoji.emojize(':face_savoring_food:')} Message is sent ")
         else:
             febu_bot.hover_element(li.find_element_by_class_name('oajrlxb2'))
             time.sleep(0.5)
+        print(f"========> {emoji.emojize(':watermelon:')} Thread {i} is completed <========")
+        i += 1
+        time.sleep(5)
     exit(0)
 
 
