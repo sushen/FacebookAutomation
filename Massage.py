@@ -90,6 +90,7 @@ class FacebookBot:
 
     def login(self):
         self.driver.get(self.data.facebook_login_page)
+        input("Accepted cookies??? Then hit enter ")
         self.driver.find_element_by_name("email").send_keys(self.data.username)
         self.wait()
         self.driver.find_element_by_name("pass").send_keys(self.data.password)
