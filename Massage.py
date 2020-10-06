@@ -30,6 +30,7 @@ messages = [
     "Thanks for your comment"
 ]
 
+closeNow = False
 
 class Data:
     username = None
@@ -200,6 +201,7 @@ def run(febu_bot_: FacebookBot, feed_box_aria_):
                 time.sleep(0.5)
             except Exception as e:
                 print(f"====> Messagings are not available {emoji.emojize(':expressionless_face:')}")
+                closeNow = True
                 break
 
             time.sleep(1.3)
@@ -281,7 +283,7 @@ if __name__ == '__main__':
     time.sleep(3)
 
     i = 1
-    while True:
+    while closeNow:
         print(f"==========> Executing {1} <============")
 
         if i > 1 and isSilent is False:
