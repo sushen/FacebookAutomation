@@ -1,3 +1,13 @@
+# Copyright (c) 2020.
+# Version : 5.0.0
+# Script Author : Sushen Biswas, Fahim Al Islam
+# Sushen Biswas Github Link : https://github.com/sushen
+# Fahim Al Islam Github and Profile link (https://github.com/dev-fahim) (https://dev-fahim.github.io/me)
+#
+#  !/usr/bin python3
+#  coding: utf-8
+
+
 import sys
 import time
 
@@ -37,8 +47,10 @@ class FacebookBot:
     def wait(self, in_sec=None):
         time.sleep(in_sec) if in_sec is not None else time.sleep(self.wait_time)
 
-    def login(self):
-        self.driver.get(self.data.facebook_login_page)
+    def login(self, asked=False):
+        self.driver.get(self.data.facebook_login_url)
+        if asked:
+            input("#### Accepted cookies??? Then hit enter: ")
         self.driver.find_element_by_name("email").send_keys(self.data.username)
         self.wait()
         self.driver.find_element_by_name("pass").send_keys(self.data.password)
@@ -54,7 +66,7 @@ class FacebookBot:
     def goto_facebook_page_post(self, url=None):
         self.driver.implicitly_wait(self.wait_time)
         if url is None:
-            self.driver.get(self.data.facebook_business_post_url)
+            self.driver.get(self.data.facebook_post_url)
         else:
             self.driver.get(url)
         self.wait()
