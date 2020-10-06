@@ -1,5 +1,5 @@
 # Copyright (c) 2020.
-# Version : 5.0.0
+# Version : 5.1.0
 # Script Author : Sushen Biswas, Fahim Al Islam
 # Sushen Biswas Github Link : https://github.com/sushen
 # Fahim Al Islam Github and Profile link (https://github.com/dev-fahim) (https://dev-fahim.github.io/me)

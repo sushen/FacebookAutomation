@@ -6,6 +6,7 @@ import dotenv
 import emoji
 from selenium.common.exceptions import NoSuchElementException
 
+from febu_bot import VERSION
 from febu_bot.data_model import DataModel
 from febu_bot.febu_bot import FacebookBot
 
@@ -62,7 +63,7 @@ def run(febu_bot_: FacebookBot, feed_box_aria_, isYourPage, messages):
 def driver():
     print()
     print()
-    print(f"************ Facebook page post auto message bot \U0001F600 ************")
+    print(f"************ Facebook page post auto message bot \U0001F600 {VERSION} ************")
     dotenv.load_dotenv()
     messages = []
     with open("./messages.txt") as f:
