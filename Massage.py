@@ -229,11 +229,11 @@ if __name__ == '__main__':
             print("Found")
             time.sleep(1.3)
             febu_bot.driver.execute_script("arguments[0].click();", message_link)
-            time.sleep(0.8)
+            time.sleep(2)
             message_box = febu_bot.driver.find_element_by_xpath('//div[contains(@aria-label, "Message")]')
             message_box_form = message_box.find_element_by_xpath(
                 '//div/div[3]/div[2]/div[2]/span/div/div/div[2]/div/div/div/div')
-            message_box_form.send_keys('It worked')
+            message_box_form.send_keys(random.choice(messages))
             time.sleep(1)
             febu_bot.mouse_click(xpath='//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div['
                                        '2]/div/div/div/div[4]/div[2]/div')
