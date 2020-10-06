@@ -1,5 +1,5 @@
 #  Copyright (c) 2020.
-#  Version : 1.0.2
+#  Version : 3.0.2
 #  Script Author : Sushen Biswas
 #  Somehow we don't know this is highly edited by Fahim Al Islam (https://github.com/dev-fahim) (https://dev-fahim.github.io/me)
 #  Sushen Biswas Github Link : https://github.com/sushen
@@ -88,9 +88,10 @@ class FacebookBot:
     def wait(self, in_sec=None):
         time.sleep(in_sec) if in_sec is not None else time.sleep(self.wait_time)
 
-    def login(self):
+    def login(self, asked=False):
         self.driver.get(self.data.facebook_login_page)
-        input("Accepted cookies??? Then hit enter ")
+        if asked:
+            input("Accepted cookies??? Then hit enter ")
         self.driver.find_element_by_name("email").send_keys(self.data.username)
         self.wait()
         self.driver.find_element_by_name("pass").send_keys(self.data.password)
@@ -185,6 +186,7 @@ if __name__ == '__main__':
 
     is2FA = bool(int(input('Do you need 2FA? type 1 for yes and 0 for no: ')))
     isYourPage = bool(int(input('Is this your page? type 1 for yes and 0 for no: ')))
+    isCookieAsked = bool(int(input('Is this your cookie is been asked? type 1 for yes and 0 for no: ')))
 
     username = os.environ.get('my_facebook_username')
     password = os.environ.get('my_facebook_password')
@@ -195,7 +197,7 @@ if __name__ == '__main__':
 
     febu_bot = FacebookBot(data)
 
-    febu_bot.login()
+    febu_bot.login(asked=isCookieAsked)
 
     if is2FA:
         input("Enter after your work is done:")
@@ -217,13 +219,16 @@ if __name__ == '__main__':
             message_link = None
             try:
                 message_link = li.find_element_by_xpath('//div[1]/div/div[2]/ul/li[3]/div[@role="button"]')
+                febu_bot.driver.execute_script("arguments[0].scrollIntoView();", message_link)
+                time.sleep(0.5)
             except Exception as e:
                 print(e)
                 print("Not found")
                 continue
 
             print("Found")
-            message_link.click()
+            time.sleep(1.3)
+            febu_bot.driver.execute_script("arguments[0].click();", message_link)
             time.sleep(0.8)
             message_box = febu_bot.driver.find_element_by_xpath('//div[contains(@aria-label, "Message")]')
             message_box_form = message_box.find_element_by_xpath(
