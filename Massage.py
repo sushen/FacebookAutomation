@@ -189,7 +189,6 @@ def run(febu_bot_: FacebookBot, feed_box_aria_):
     i = 1
     for li in comments:
         print()
-        print()
         print(f"========> Now in number {i} thread {emoji.emojize(':smirking_face:')} <========")
         message = random.choice(messages)
         if isYourPage:
@@ -229,6 +228,7 @@ def run(febu_bot_: FacebookBot, feed_box_aria_):
         print(f"========> {emoji.emojize(':watermelon:')} Thread {i} is completed <========")
         i += 1
         time.sleep(5)
+        print()
 
 
 if __name__ == '__main__':
@@ -270,7 +270,6 @@ if __name__ == '__main__':
     print("==> Now in page post")
 
     time.sleep(2)
-
 
     feed_box_aria = febu_bot.driver.find_element_by_xpath("//div[@data-testid='Keycommand_wrapper_feed_story']")
 
