@@ -92,7 +92,7 @@ class FacebookBot:
     def login(self, asked=False):
         self.driver.get(self.data.facebook_login_page)
         if asked:
-            input("Accepted cookies??? Then hit enter ")
+            input("#### Accepted cookies??? Then hit enter :")
         self.driver.find_element_by_name("email").send_keys(self.data.username)
         self.wait()
         self.driver.find_element_by_name("pass").send_keys(self.data.password)
@@ -182,6 +182,55 @@ class FacebookBot:
         pass
 
 
+def run(febu_bot_: FacebookBot, feed_box_aria_):
+
+    comments = feed_box_aria_.find_elements_by_xpath('//div[contains(@aria-label, "Comment by")]')
+
+    i = 1
+    for li in comments:
+        print()
+        print()
+        print(f"========> Now in number {i} thread {emoji.emojize(':smirking_face:')} <========")
+        message = random.choice(messages)
+        if isYourPage:
+            message_link = None
+            try:
+                message_link = li.find_element_by_xpath('//div[1]/div/div[2]/ul/li[3]/div[@role="button"]')
+                febu_bot_.driver.execute_script("arguments[0].scrollIntoView();", message_link)
+                print("====> Scrolled to the commenter")
+                time.sleep(0.5)
+            except Exception as e:
+                print(f"====> Messagings are not available {emoji.emojize(':expressionless_face:')}")
+                break
+
+            time.sleep(1.3)
+            febu_bot_.driver.execute_script("arguments[0].click();", message_link)
+            print("====> Message button clicked")
+            time.sleep(2)
+            commenter = febu_bot_.driver.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div['
+                                                              '4]/div/div/div[1]/div/div[2]/div/div/div/div['
+                                                              '1]/div/h2/span/span').text
+            print(f"====> {emoji.emojize(':face_savoring_food:')} Sending Message to {commenter}")
+            time.sleep(1)
+            message_box = febu_bot_.driver.find_element_by_xpath('//div[contains(@aria-label, "Message")]')
+            message_box_form = message_box.find_element_by_xpath(
+                '//div/div[3]/div[2]/div[2]/span/div/div/div[2]/div/div/div/div')
+            message_box_form.send_keys(message)
+            print("====> Inputed the message with: " + message)
+            time.sleep(1)
+            febu_bot_.mouse_click(xpath='//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div['
+                                       '2]/div/div/div/div[4]/div[2]/div')
+            print("====> Send message button clicked")
+            time.sleep(5)
+            print(f"====> {emoji.emojize(':face_savoring_food:')} Message is sent ")
+        else:
+            febu_bot_.hover_element(li.find_element_by_class_name('oajrlxb2'))
+            time.sleep(0.5)
+        print(f"========> {emoji.emojize(':watermelon:')} Thread {i} is completed <========")
+        i += 1
+        time.sleep(5)
+
+
 if __name__ == '__main__':
     print()
     print()
@@ -213,13 +262,15 @@ if __name__ == '__main__':
     febu_bot.login(asked=isCookieAsked)
 
     if is2FA:
-        input("Enter after your work is done:")
+        input("#### Enter after your work is done: ")
     print(f"==> Logged in {emoji.emojize(':smiling_face_with_sunglasses:')}")
 
     febu_bot.goto_facebook_page_post()
     print("==> Now in page post")
 
     time.sleep(2)
+
+
     feed_box_aria = febu_bot.driver.find_element_by_xpath("//div[@data-testid='Keycommand_wrapper_feed_story']")
 
     comments_button = "//div[@aria-label='Leave a comment']"
@@ -229,81 +280,59 @@ if __name__ == '__main__':
 
     time.sleep(3)
 
-    febu_bot.mouse_click('//span/span[contains(text(), "View") and contains(text(), "comments")]')
-    print("==> Loading more comments")
-    time.sleep(6)
-    print("==> More comments are loaded")
-
-    comments = feed_box_aria.find_elements_by_xpath('//div[contains(@aria-label, "Comment by")]')
-
     i = 1
-    for li in comments:
-        print()
-        print()
-        print(f"========> Now in number {i} thread {emoji.emojize(':smirking_face:')} <========")
-        message = random.choice(messages)
-        if isYourPage:
-            message_link = None
-            try:
-                message_link = li.find_element_by_xpath('//div[1]/div/div[2]/ul/li[3]/div[@role="button"]')
-                febu_bot.driver.execute_script("arguments[0].scrollIntoView();", message_link)
-                print("====> Scrolled to the commenter")
-                time.sleep(0.5)
-            except Exception as e:
-                print(f"====> Messaging not available for this comment {emoji.emojize(':expressionless_face:')}")
-                continue
+    while True:
+        print(f"==========> Executing {1} <============")
 
-            time.sleep(1.3)
-            febu_bot.driver.execute_script("arguments[0].click();", message_link)
-            print("====> Message button clicked")
-            time.sleep(2)
-            commenter = febu_bot.driver.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div['
-                                                              '4]/div/div/div[1]/div/div[2]/div/div/div/div['
-                                                              '1]/div/h2/span/span').text
-            print(f"====> {emoji.emojize(':face_savoring_food:')} Sending Message to {commenter}")
-            time.sleep(1)
-            message_box = febu_bot.driver.find_element_by_xpath('//div[contains(@aria-label, "Message")]')
-            message_box_form = message_box.find_element_by_xpath(
-                '//div/div[3]/div[2]/div[2]/span/div/div/div[2]/div/div/div/div')
-            message_box_form.send_keys(message)
-            print("====> Inputed the message with: " + message)
-            time.sleep(1)
-            febu_bot.mouse_click(xpath='//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div['
-                                       '2]/div/div/div/div[4]/div[2]/div')
-            print("====> Send message button clicked")
-            time.sleep(5)
-            print(f"====> {emoji.emojize(':face_savoring_food:')} Message is sent ")
+        if i > 1:
+            febu_bot.driver.execute_script('window.alert("Click ok then in command ans. question to load more comments '
+                                           'and run again");')
+            load_more = bool(int(input("#### Load more comments? type 1 for yes and 0 for no: ")))
         else:
-            febu_bot.hover_element(li.find_element_by_class_name('oajrlxb2'))
-            time.sleep(0.5)
-        print(f"========> {emoji.emojize(':watermelon:')} Thread {i} is completed <========")
-        i += 1
-        time.sleep(5)
-    exit(0)
+            load_more = True
 
+        if load_more is False:
+            break
+        else:
+            try:
+                view_comments = febu_bot.driver.find_element_by_xpath(
+                    '//span/span[contains(text(), "View") and contains(text(), "comments")]')
+                febu_bot.driver.execute_script("arguments[0].scrollIntoView();", view_comments)
+                time.sleep(1)
+                febu_bot.driver.execute_script("arguments[0].click();", view_comments)
+                print("==> Loading more comments")
+                time.sleep(10)
+                print("==> More comments are loaded")
+            except Exception as e:
+                print(e)
+                print("==> No More comments")
+
+            run(febu_bot, feed_box_aria)
+
+            i += 1
 
 
 """
-    for profile in febu_bot.driver.find_elements_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div['
+    for profile in febu_bot_.driver.find_elements_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div['
                                                           '1]/div[1]/div[4]/div['
                                                           '1]/div/div/div/div/div/div/div/div/div[1]/div/div['
                                                           '2]/div/div[4]/div/div/div[2]/ul/li'):
-        febu_bot.hover_element(profile.find_element_by_class_name('oajrlxb2'))
+        febu_bot_.hover_element(profile.find_element_by_class_name('oajrlxb2'))
 
         time.sleep(3)
 
-        if len(febu_bot.driver.find_elements_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div['
+        if len(febu_bot_.driver.find_elements_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div['
                                                       '2]/div/div/div[1]/div[1]/div/div/div[2]/div/div/div/div')) \
                 == 2:
-            canMessage = febu_bot.check_it_exists_by_class('k4urcfbm')
+            canMessage = febu_bot_.check_it_exists_by_class('k4urcfbm')
 
             if canMessage:
-                # message = febu_bot.driver.find_element_by_class_name('k4urcfbm')
-                febu_bot.mouse_click('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div['
+                # message = febu_bot_.driver.find_element_by_class_name('k4urcfbm')
+                febu_bot_.mouse_click('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[3]/div/div/div[2]/div/div/div[1]/div['
                                      '1]/div/div/div[2]/div/div/div/div[1]/div/div')  # rq0escxv
                 time.sleep(3)
                 try:
-                    febu_bot.fill_text_input_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[5]/div[1]/div[1]/div['
+                    febu_bot_.fill_text_input_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[5]/div[1]/div[1]/div['
                                                       '1]/div/div/div/div/div/div/div[2]/div/div[2]/form/div/div['
                                                       '3]/div[ '
                                                       '2]/div[1]/div/div/div/div/div[2]/div/div/div/div', 'Thanks')
