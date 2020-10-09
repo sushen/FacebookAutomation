@@ -1,21 +1,22 @@
 import logging
 
-from febu_bot import VERSION
-from .driver import driver
-import sys
+from febu_bot.bot import FebuBotConfig
+from febu_bot.start import start
+from .conf.settings import *
 
 
-def drive_bot():
-    argv = sys.argv
-    if len(argv) > 1 and (argv[1] == '-v' or argv[1] == '--version'):
-        print(VERSION)
-        quit()
-    logging.basicConfig(filename='./errors.log', level=logging.ERROR,
+def drive_bot(index=None):
+
+    logging.basicConfig(filename='./errors.log', level=mod.LOG_LEVEL,
                         format='%(asctime)s %(levelname)s %(name)s %(message)s')
     logger = logging.getLogger(__name__)
 
     try:
-        driver()
+        if index is None:
+            index = mod.DEFAULT_BOT
+        bot: FebuBotConfig = mod.BOTS[index - 1]
+        start(bot.name)
+        bot.driver()
     except Exception as e:
         logger.error(e)
         print()
