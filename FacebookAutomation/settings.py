@@ -7,9 +7,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 BOTS = [
     message_post_commenter.Bot,
-    page_post.Bot
+    message_post_commenter
 ]
 
-DEFAULT_BOT = 2
+DEFAULT_BOT = 1
 
 LOG_LEVEL = logging.DEBUG
