@@ -71,22 +71,25 @@ class FacebookBot:
         centre = self.driver.find_element_by_xpath(xpath)
         hover = ActionChains(self.driver).move_to_element(centre)
         hover.perform()
-        self.wait(1)
+        self.wait(3)
 
     def hover_element(self, element):
         hover = ActionChains(self.driver).move_to_element(element)
         hover.perform()
-        self.wait(1)
+        self.wait(3)
+
 
     def hover_element_class(self, class_):
         centre = self.driver.find_element_by_class_name(class_)
         hover = ActionChains(self.driver).move_to_element(centre)
         hover.perform()
+        self.wait(3)
 
     def hover_element_id(self, id_):
         centre = self.driver.find_element_by_id(id_)
         hover = ActionChains(self.driver).move_to_element(centre)
         hover.perform()
+        self.wait(3)
 
     def mouse_click(self, xpath, wait=None, until=None):
         self.driver.find_element_by_xpath(xpath).click()
@@ -142,8 +145,12 @@ class FebuCommenter:
 
     def __init__(self, febu_bot: FacebookBot):
         self.browser = febu_bot
-        self.feed_box_area = self.browser.driver.find_element_by_xpath("//div[@data-testid"
-                                                                       "='Keycommand_wrapper_feed_story']")
+        # role='main' ===== Bangladesh Page Post 
+        self.feed_box_area = self.browser.driver.find_element_by_xpath("//div[@role='main']")
+        
+        #role='article' =====  
+        # self.feed_box_area = self.browser.driver.find_element_by_xpath("//div[@role='article']")
+        # self.feed_box_area = self.browser.driver.find_element_by_xpath("//div[@data-testid""='Keycommand_wrapper_feed_story']")
 
     def get_feed_box_area(self):
         return self.feed_box_area
@@ -152,8 +159,8 @@ class FebuCommenter:
         self.feed_box_area = self.browser.driver.find_element_by_xpath(feed_box_area_xpath)
 
     def get_commenter_actions_list(self):
-        return self.feed_box_area.find_elements_by_xpath('//div[contains(@aria-label, "Comment by") and '
-                                                         '@role="article"]')
+        return self.feed_box_area.find_elements_by_xpath('//div[contains(@aria-label, "Comment by") and @role="article"]')
+        # return self.feed_box_area.find_elements_by_xpath('//div[contains(@aria-label, "Comment by") and ''@role="article"]')
 
     @staticmethod
     def commenter_action_element(trigger_type: TRIGGER, commenter: WebElement):
