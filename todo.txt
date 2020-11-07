@@ -1,0 +1,6 @@
+send massage
+comment
+reply comment
+edit comment
+delete comment 
+like every comment. 
