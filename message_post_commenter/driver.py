@@ -9,13 +9,14 @@ from selenium.common.exceptions import NoSuchElementException
 from febu_bot import VERSION
 from febu_bot.data_model import DataModel
 from febu_bot.febu_bot import FacebookBot 
-from febu_bot import custom_xpath 
+from febu_bot.custom_xpath import CustomXpath
 
 
 
-messenger_message_box_xpath = '//*[@id="mount_0_0"]/div/div[1]/div[1]/div[5]/*//form/div/div[3]/div[2]/div[1]/div/div/div/div/*//div/div/div/div'
 
-def run(febu_bot_: FacebookBot, feed_box_aria_, isYourPage, messages):
+
+
+def run(febu_bot_: FacebookBot, feed_box_aria_, isYourPage, messages,custom_xpath_:CustomXpath):
     
     # comments = feed_box_aria_.find_elements_by_xpath('//div[contains(@aria-label, "Comment")]') # for Bangladesh page
     comments = feed_box_aria_.find_elements_by_xpath('//div[contains(@aria-label, "Comment by")]')
@@ -42,16 +43,16 @@ def run(febu_bot_: FacebookBot, feed_box_aria_, isYourPage, messages):
             except NoSuchElementException:
                 print(f"====> Messaging are not available anymore {emoji.emojize(':expressionless_face:')}")
                 print()
-                print()
-                break
+              
 
             time.sleep(1)
             febu_bot_.driver.execute_script("arguments[0].click();", message_link)
             print("====> Message button clicked")
             time.sleep(2)
             
-            commenter = febu_bot_.driver.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[1]/div/h2/span/span').text
-            print(f"====> {emoji.emojize(':face_savoring_food:')} Sending Message to {commenter}")
+            # commenter = febu_bot_.driver.find_element_by_xpath('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[1]/div/h2/span/span').text
+            
+            # print(f"====> {emoji.emojize(':face_savoring_food:')} Sending Message to {commenter}")
             time.sleep(1)
             message_box = febu_bot_.driver.find_element_by_xpath('//div[contains(@aria-label, "Message")]')
             message_box_form = message_box.find_element_by_xpath('//div/div[3]/div[2]/div[2]/span/div/div/div[2]/div/div/div/div')
@@ -59,14 +60,16 @@ def run(febu_bot_: FacebookBot, feed_box_aria_, isYourPage, messages):
             message_box_form.send_keys(message)
             print("====> Filled with message: " + message)
             time.sleep(1)
-            febu_bot_.mouse_click(xpath='//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[4]/div[2]/div')
+            febu_bot_.mouse_click(xpath='//*[@id="mount_0_0"]/div/div[1]/div[1]/div[5]/*//form/div/div[3]/div[2]/div[1]/div/div/div/div/*//div/div/div/div')
+            # febu_bot_.mouse_click(xpath='//*[@id="mount_0_0"]/div/div[1]/div[1]/div[4]/div/div/div[1]/div/div[2]/div/div/div/div[4]/div[2]/div') # 0ld
+            
             print("====> Send message button clicked")
             time.sleep(1)
             print(f"====> {emoji.emojize(':face_savoring_food:')} Message is sent ")
         else:
             
             personLink = febu_bot_.hover_element(li.find_element_by_class_name('oajrlxb2'))
- 
+
             time.sleep(5)
             try:
                 message_box = febu_bot_.driver.find_element_by_xpath('//div[@aria-label="Message" and @tabindex="-1"]') 
@@ -77,27 +80,31 @@ def run(febu_bot_: FacebookBot, feed_box_aria_, isYourPage, messages):
                     pass
             except NoSuchElementException:
                 print("Hover message box not found")
-     
+        
             try:
                 time.sleep(5)
-                message_box_form =  febu_bot_.driver.find_element_by_xpath(messenger_message_box_xpath)
+                # custom_xpath_.set_person_message_xpath_list('//*[@id="mount_0_0"]/div/div[1]/div[1]/div[5]/*//form/div/div[3]/div[2]/div[1]/div/div/div/div/*//div/div/div/div')
+                xpath_list = custom_xpath_.get_person_message_xpath_list()
+                message_box_form =  febu_bot_.driver.find_element_by_xpath(xpath_list[0])   
+                try:                
+                    time.sleep(5)  
+                    message_box_form.send_keys(message)
                 
-                time.sleep(5)
+                    time.sleep(2)
+                    message_box_form.send_keys(u'\ue007')
+                    
+                    print("====> Filled with message: " + message)
+                    print(f"====> {emoji.emojize(':face_savoring_food:')} Message Sent Succesful ")
+                    time.sleep(2)
+                    febu_bot_.mouse_click(xpath='//div[@aria-label="Close chat"]')
+                    print("Chat closed")
                 
-                message_box_form.send_keys(message)
-            
-                time.sleep(2)
-                message_box_form.send_keys(u'\ue007')
-                
-                print("====> Filled with message: " + message)
-                print(f"====> {emoji.emojize(':face_savoring_food:')} Message Sent Succesful ")
-                time.sleep(2)
-                febu_bot_.mouse_click(xpath='//div[@aria-label="Close chat"]')
-                print("Chat closed")
-                 
+                except NoSuchElementException:
+                    print('message box form not found') 
+                                     
             except NoSuchElementException:
-                print('message box form not found')     
-            
+               pass       
+                             
         print(f"========> {emoji.emojize(':smirking_face:')} Thread {i} is completed <========")
         i += 1
         time.sleep(5)
@@ -115,7 +122,7 @@ def driver():
     dotenv.load_dotenv()
     messages = []
     
-    with open("./messages.txt") as f:
+    with open("./messages.txt", encoding="utf-8") as f:
         for line in f:
             messages.append(line.split('\n')[0])
 
@@ -141,10 +148,9 @@ def driver():
     # data = DataModel(username, password)
     post_url = input("#### Your post URL: ")
     # data.facebook_post_url = post_url
-    message_box_xpath = input("#### Please give 1 commenter messenger message Box Xpath: ")
-    messenger_message_box_xpath = message_box_xpath
-    print(messenger_message_box_xpath)
+   
     febu_bot = FacebookBot()
+    custom_xpath = CustomXpath()
    
     febu_bot.login(
         username=username,
@@ -209,6 +215,6 @@ def driver():
                 print("==> No More comments")
                 break
 
-            run(febu_bot, feed_box_aria, is_your_page, messages)
+            run(febu_bot, feed_box_aria, is_your_page, messages,custom_xpath)
 
             i += 1
